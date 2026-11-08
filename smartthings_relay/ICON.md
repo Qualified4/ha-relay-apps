@@ -1,3 +1,3 @@
-Generated and refined with the built-in imagegen tool.
+Built-in imagegen; user-supplied networking icon composition and official HA/SmartThings identity references.
 
-Final concept/prompt: flat SmartThings-to-Home Assistant bridge, turquoise central hub with exactly five outer ring nodes, short horizontal link to a sky-blue HA house with white three-branch circuit, solid navy background, no text or 3D decoration.
+Final prompt: blue rounded-square network bridge utility icon, white rounded central panel, SmartThings five-spoke ring network and accurate asymmetric HA house/tree in negative space, bidirectional arrows between endpoints, compact up/down connection triangles; clean flat monoline style.
