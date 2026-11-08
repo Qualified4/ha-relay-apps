@@ -1,5 +1,5 @@
 name: SmartThings LAN Relay
-version: "0.1.1"
+version: "0.1.2"
 slug: smartthings_relay
 description: Authenticated Edge LAN status and vehicle control relay
 url: https://github.com/Qualified4/ha-relay-apps

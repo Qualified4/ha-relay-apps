@@ -38,7 +38,8 @@ Rule-based refresh: automatic large-object change triggering is not reliable. Th
 refresh uses Rules, not a continuously authenticated REST client.
 All source values, including nested objects/arrays, are available under sensor attributes.
 Long/structured values use a short display state to respect HA's 255-character limit.
-Null source attributes remain unknown. A cached value does not prove appliance freshness.
+Null source attributes remain unknown. Container type hints preserve singleton arrays and
+empty objects when intermediate platform/Lua serialization changes their representation. A cached value does not prove appliance freshness.
 
 Vehicle commands without arguments appear as HA buttons. Parameterized commands use
 the Vehicle command JSON text entity (up to 255 characters) or mqtt.publish on
