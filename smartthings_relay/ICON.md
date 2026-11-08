@@ -1,3 +1,3 @@
-Built-in imagegen; user-supplied networking icon composition and official HA/SmartThings identity references.
+Built-in imagegen, refined from user-provided HA and SmartThings identity references.
 
-Final prompt: blue rounded-square network bridge utility icon, white rounded central panel, SmartThings five-spoke ring network and accurate asymmetric HA house/tree in negative space, bidirectional arrows between endpoints, compact up/down connection triangles; clean flat monoline style.
+Final prompt: original flat bridge icon; accurate SmartThings five outer ring nodes and asymmetric HA house/tree, small opposing horizontal arrows, calm blue background, generous spacing. Remove the reference networking icon's surrounding rectangle and top/bottom arrows; no text, border, 3D, or extra decoration.
