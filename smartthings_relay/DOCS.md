@@ -40,7 +40,7 @@ Home Assistant OS/Supervisor (`aarch64` / `amd64`), SmartThings Edge 지원 허�
 
 세탁기 전원과 동작 상태는 별개입니다. 켜져 있어도 세탁 시작 전에는 `machineState=stop`, `washerJobState=none`일 수 있습니다.
 
-capability별 속성 이벤트 규칙은 `Always` 트리거와 timestamp를 사용합니다. 대형 메타데이터는 1분 Rules 갱신으로 보완하므로 모든 속성의 즉시 반영을 보장하지 않습니다.
+capability별 속성 이벤트 규칙은 값을 자기 자신과 비교하는 `Always` 트리거를 사용합니다(클라우드 기기에서 `$.timestamp` 경로 트리거는 발화하지 않음). 배열·객체 속성은 5분 주기로 전달합니다. 대형 메타데이터는 1분 Rules 갱신으로 보완하므로 모든 속성의 즉시 반영을 보장하지 않습니다.
 
 ## 차량 제어
 
