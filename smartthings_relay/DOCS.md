@@ -32,7 +32,9 @@ Do not run --apply twice: use the installation manifest to manage exactly these 
 
 POST catalog.json to /configure with X-Relay-Key. Execute the recorded snapshot Rules
 once to initialize current status; snapshot Rules only read source attributes.
-Afterwards, changes subscriptions send subsequent updates automatically. Large metadata
+Afterwards, explicit attribute-event Rules send subsequent updates automatically.
+Rules use Always triggers and compare event timestamps, grouped by capability,
+so provider event flags and complex attribute value types do not suppress updates. Large metadata
 (over 1KB, such as the washer's 46KB supported-cycle list) also receives a one-minute
 Rule-based refresh: automatic large-object change triggering is not reliable. This
 refresh uses Rules, not a continuously authenticated REST client.
