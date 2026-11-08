@@ -81,3 +81,7 @@ allowlist .dockerignore. Runtime secrets and catalogs live only under /data.
 Container contents are extractable: public image does not hide compiled/source code.
 
 Validation: python -m unittest discover -s tests -v
+
+Native MQTT controls can be stored in the private runtime catalog under entities.
+Optional HVAC settings are persisted locally. Changing temperature, duration, or defog
+preferences never actuates the vehicle; only an explicit HVAC on/mode command uses them.
