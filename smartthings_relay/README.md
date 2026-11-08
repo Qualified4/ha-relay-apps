@@ -2,7 +2,7 @@
 
 한국어 · [English](README.en.md)
 
-SmartThings 기기의 상태를 Home Assistant로 전달하고, HA에서 차량 제어 명령을 보낼 수 있게 연결하는 앱입니다. **AEB 대신 자체 SmartThings Edge 드라이버와 Rules를 사용합니다.** 실행 중에는 SmartThings OAuth 토큰을 저장하거나 REST API를 반복 조회하지 않습니다.
+SmartThings 기기의 상태를 Home Assistant로 전달하고, HA에서 차량·온수매트 제어 명령을 보낼 수 있게 연결하는 앱입니다. **AEB 대신 자체 SmartThings Edge 드라이버와 Rules를 사용합니다.** 실행 중에는 SmartThings OAuth 토큰을 저장하거나 REST API를 반복 조회하지 않습니다.
 
 ## 구성
 
@@ -15,8 +15,9 @@ SmartThings 기기의 상태를 Home Assistant로 전달하고, HA에서 차량 
 
 ## 주요 기능
 
-- 세탁기·차량의 단순 값과 중첩 객체·배열 상태 수신, MQTT 자동 발견
-- 차량 명령 버튼과 JSON 명령, 카탈로그로 정의하는 공조·잠금 등의 MQTT 제어
+- 세탁기·차량·온수매트의 단순 값과 중첩 객체·배열 상태 수신, MQTT 자동 발견
+- 차량 명령 버튼과 JSON 명령, 카탈로그로 정의하는 공조·잠금·온수매트 전원/좌우 난방 등의 MQTT 제어
+- 여러 속성을 묶은 view 문서(예: 전체 전원 + 좌/우 switch)로 실제 난방 상태 해석
 - 로컬 공조 온도·작동 시간·김서림 설정 저장. 설정 변경만으로 차량을 작동시키지 않음
 - 최신 상태 캐시와 재연결 시 재전송, 중복 명령 방지
 - 영구 중계 키 인증, 허브 IP·중계 기기 허용 목록
@@ -26,7 +27,7 @@ SmartThings 기기의 상태를 Home Assistant로 전달하고, HA에서 차량 
 
 Home Assistant OS 또는 Supervisor 환경, SmartThings Edge 지원 허브, 설정된 Mosquitto 앱과 HA MQTT 통합이 필요합니다.
 
-**앱 설치만으로 연결이 완료되지 않습니다.** 자체 Edge 드라이버 설치와 기기별 Rules·카탈로그 구성이 필요합니다. 구성 도구와 드라이버 소스는 비공개 저장소에서 관리하며, 공개 설치 저장소만으로는 초기 구성을 할 수 없습니다. 현재 검증 범위는 구성된 세탁기·차량이며 모든 SmartThings 기기의 자동 호환을 보장하지 않습니다.
+**앱 설치만으로 연결이 완료되지 않습니다.** 자체 Edge 드라이버 설치와 기기별 Rules·카탈로그 구성이 필요합니다. 구성 도구와 드라이버 소스는 비공개 저장소에서 관리하며, 공개 설치 저장소만으로는 초기 구성을 할 수 없습니다. 현재 검증 범위는 구성된 세탁기·차량·나비엔 온수매트(MateWmFloatDouble)이며 모든 SmartThings 기기의 자동 호환을 보장하지 않습니다.
 
 공개 설치 저장소를 HA의 **설정 → 앱 → 앱 스토어 → 저장소**에 추가하세요.
 

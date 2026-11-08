@@ -2,11 +2,11 @@
 
 [한국어](README.md) · English
 
-Connect SmartThings device states and vehicle controls to Home Assistant using a custom Edge driver, SmartThings Rules and local MQTT. Runtime does not store SmartThings OAuth credentials or poll its REST API. This project does not use AEB.
+Connect SmartThings device states and vehicle/water mat controls to Home Assistant using a custom Edge driver, SmartThings Rules and local MQTT. Runtime does not store SmartThings OAuth credentials or poll its REST API. This project does not use AEB.
 
 ## Features
 
-- Washer and vehicle state discovery, including structured attributes
+- Washer, vehicle and Navien water mat state discovery, including structured attributes
 - Command buttons and catalog-defined MQTT climate/lock controls
 - Local HVAC preferences; editing preferences does not actuate the vehicle
 - Durable latest-state cache, reconnect replay and duplicate-request suppression

@@ -45,6 +45,14 @@ Long/structured values use a short display state to respect HA's 255-character l
 Null source attributes remain unknown. Container type hints preserve singleton arrays and
 empty objects when intermediate platform/Lua serialization changes their representation. A cached value does not prove appliance freshness.
 
+Catalog controls may target any relayed device (not only the vehicle); set
+"button": false to skip the button. Catalog "views" publish several attributes as
+one JSON document at smartthings_lan_relay/view/<name>. The Navien MateWmFloatDouble
+water mat keeps stale Left/Right switch values while main power is off, turns main
+power off when the last zone is switched off, stores zone/setpoint changes while
+off and restores the previous zone layout at power on; zone heat is therefore
+main==on AND zone==on, and zone heat sends zone on plus main on.
+
 Vehicle commands without arguments appear as HA buttons. Parameterized commands use
 the Vehicle command JSON text entity (up to 255 characters) or mqtt.publish on
 smartthings_lan_relay/command, with retain:false and {"route":"catalog route","args":[...]}.
