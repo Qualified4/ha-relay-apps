@@ -32,7 +32,10 @@ Do not run --apply twice: use the installation manifest to manage exactly these 
 
 POST catalog.json to /configure with X-Relay-Key. Execute the recorded snapshot Rules
 once to initialize current status; snapshot Rules only read source attributes.
-Afterwards, changes subscriptions send subsequent updates automatically.
+Afterwards, changes subscriptions send subsequent updates automatically. Large metadata
+(over 1KB, such as the washer's 46KB supported-cycle list) also receives a one-minute
+Rule-based refresh: automatic large-object change triggering is not reliable. This
+refresh uses Rules, not a continuously authenticated REST client.
 All source values, including nested objects/arrays, are available under sensor attributes.
 Long/structured values use a short display state to respect HA's 255-character limit.
 Null source attributes remain unknown. A cached value does not prove appliance freshness.
