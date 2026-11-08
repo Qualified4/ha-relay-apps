@@ -1,0 +1,29 @@
+name: SmartThings LAN Relay
+version: "0.1.0"
+slug: smartthings_relay
+description: Authenticated Edge LAN status and vehicle control relay
+url: https://github.com/Qualified4/ha-relay-apps
+arch: [aarch64, amd64]
+image: ghcr.io/qualified4/smartthings-ha-relay
+startup: application
+boot: auto
+init: false
+homeassistant_api: true
+services:
+  - mqtt:need
+ports:
+  18088/tcp: 18088
+ports_description:
+  18088/tcp: Authenticated local Edge relay
+watchdog: http://[HOST]:[PORT:18088]/health
+options:
+  hub_ip: ""
+  sources: []
+  relay_key: ""
+  event_type: smartthings_lan_relay
+schema:
+  hub_ip: str
+  sources:
+    - str
+  relay_key: password
+  event_type: str
