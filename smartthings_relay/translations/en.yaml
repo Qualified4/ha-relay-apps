@@ -1,0 +1,16 @@
+configuration:
+  hub_ip:
+    name: Hub IP address
+    description: LAN IPv4 address of the Edge hub.
+  sources:
+    name: Allowed relay device IDs
+    description: Relay device IDs allowed to send events, not source appliance IDs.
+  relay_key:
+    name: Relay authentication key
+    description: Use the same key in the App and Edge. Generated on first start when
+      empty; no automatic expiry.
+  event_type:
+    name: HA event name
+    description: Event name forwarded to HA. Keep the default unless needed.
+network:
+  18088/tcp: Authenticated Edge relay (LAN only)

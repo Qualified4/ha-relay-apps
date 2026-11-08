@@ -1,89 +1,77 @@
-# SmartThings LAN Relay
+# SmartThings LAN Relay 사용 설명서
 
-Home Assistant App: SmartThings Rules forward cloud-device attributes to an Edge driver,
-which sends authenticated LAN updates to this App. HA discovers sensors and vehicle
-controls through its existing local MQTT broker. Runtime does not use a SmartThings
-OAuth token or poll the SmartThings REST API.
+한국어 · [English](DOCS.en.md)
 
-## Install
+## 준비 사항
 
-Use the public App repository https://github.com/Qualified4/ha-relay-apps .
-The image supports Home Assistant Green (aarch64) and x86-64 HAOS (amd64).
-An installed, configured Mosquitto App and HA MQTT integration are required.
+Home Assistant OS/Supervisor (`aarch64` / `amd64`), SmartThings Edge 지원 허브, 자체 Edge 드라이버, Mosquitto 앱과 HA MQTT 통합이 필요합니다.
 
-Configure the hub LAN IPv4 and relay device ID in the App Configuration tab.
-A persistent random relay key is generated on first start and masked in Configuration.
-It has no automatic expiry. Copy it to the Edge device's authentication preference.
-Rotate it by setting a new 32–128 character key in both places and restarting the App.
-App backups include its key and private status cache; keep backups private.
+이 앱은 AEB를 사용하지 않습니다. **공개 앱만 설치하면 기기가 자동 연결되는 방식은 아닙니다.** 대상 기기의 capability에 맞춘 Rules와 비공개 카탈로그가 필요합니다. 드라이버와 초기 구성 도구는 비공개 소스 저장소에 있으므로 해당 소스 접근 권한 또는 관리자의 사전 구성이 필요합니다.
 
-Install edge-driver/ on your SmartThings Edge hub, then set the receiver IP to HA's LAN
-address and port 18088. The listener registers its dynamic hub-side port automatically.
-Do not expose port 18088 to the internet. TLS proxying is optional for other services;
-this direct LAN protocol does not require NPM.
+## 설치와 연결
 
-## Provisioning
+1. HA 앱 스토어에 `https://github.com/Qualified4/ha-relay-apps`를 추가하고 앱을 설치합니다.
+2. Mosquitto 앱과 MQTT 통합의 연결을 확인합니다.
+3. 앱의 **구성** 탭에서 아래 항목을 입력하고 시작합니다.
+4. 최초 시작 시 생성된 중계 인증 키를 Edge 기기 인증 설정에도 동일하게 입력합니다.
+5. Edge 수신 주소를 HA의 LAN IP와 포트 `18088`로 설정합니다. 허브 측 동적 수신 포트는 자동 등록됩니다.
+6. 구성 도구로 생성한 카탈로그를 `X-Relay-Key` 인증으로 앱의 `/configure`에 등록합니다. 기록된 상태 초기화 규칙을 실행합니다.
+7. MQTT로 발견된 상태와 가용성을 확인하고 기존 자동화·대시보드의 사용처를 전환합니다.
 
-Use tools/setup.py with the SmartThings CLI to generate a private catalog and Rules.
-The input contains location, relay, and washer/vehicle device IDs; write input/output
-outside this repository. Run --help for the format. Without --apply it only generates
-files. --apply creates status and vehicle-control Rules and records their IDs.
-Do not run --apply twice: use the installation manifest to manage exactly these Rules.
+허브와 HA는 LAN으로 서로 접근할 수 있어야 합니다. NPM이나 외부 HTTPS는 필수가 아닙니다. 라우터 DHCP 예약을 권장합니다.
 
-POST catalog.json to /configure with X-Relay-Key. Execute the recorded snapshot Rules
-once to initialize current status; snapshot Rules only read source attributes.
-Afterwards, explicit attribute-event Rules send subsequent updates automatically.
-Rules use Always triggers and compare event timestamps, grouped by capability,
-so provider event flags and complex attribute value types do not suppress updates. Large metadata
-(over 1KB, such as the washer's 46KB supported-cycle list) also receives a one-minute
-Rule-based refresh: automatic large-object change triggering is not reliable. This
-refresh uses Rules, not a continuously authenticated REST client.
-All source values, including nested objects/arrays, are available under sensor attributes.
-Long/structured values use a short display state to respect HA's 255-character limit.
-Null source attributes remain unknown. Container type hints preserve singleton arrays and
-empty objects when intermediate platform/Lua serialization changes their representation. A cached value does not prove appliance freshness.
+## 구성 항목
 
-Vehicle commands without arguments appear as HA buttons. Parameterized commands use
-the Vehicle command JSON text entity (up to 255 characters) or mqtt.publish on
-smartthings_lan_relay/command, with retain:false and {"route":"catalog route","args":[...]}.
-For example use the catalog's vehicleHvacRemoteSwitch/on route with the supported HVAC
-argument object. Every argument is checked against SmartThings capability schemas.
-All 11 exposed vehicle commands are provisioned, including HVAC, engine, door locks,
-refresh, and finder commands. A command supported in a profile may still be rejected by
-the upstream vehicle service; engine start on an ICE vehicle can require HVAC instead.
+| 항목 | 설명 |
+| --- | --- |
+| `hub_ip` | 자체 Edge 드라이버가 설치된 허브의 LAN IPv4 주소. 수신 출처 검증에 사용합니다. |
+| `sources` | 이벤트를 허용할 **중계 기기 ID** 목록. 원본 세탁기·차량 ID 목록이 아닙니다. |
+| `relay_key` | 앱과 Edge의 공유 인증 키. 빈 값으로 최초 시작하면 생성합니다. 직접 지정 시 32~128자입니다. |
+| `event_type` | HA 이벤트 이름. 기본값은 `smartthings_lan_relay`입니다. |
+| `18088/tcp` | 인증된 Edge LAN 중계 HTTP 포트. 내부 LAN에서만 사용합니다. |
 
-## Delivery and outages
+키는 자동 만료되지 않습니다. 교체하려면 앱과 Edge 양쪽에 같은 새 값을 설정하고 앱을 다시 시작합니다. 앱 백업에는 키와 상태 캐시가 포함되므로 비공개로 보관하세요.
 
-Status: latest value per key is durable on the App; the Edge driver caches latest values
-and periodically replays them. During downtime intermediate transitions may be collapsed.
-This is eventual latest-state synchronization, not an audit log.
-App/HA restarts replay cached values. MQTT broker reconnection republishes discovery
-and states. Edge heartbeat loss marks entities unavailable after about 90 seconds;
-availability indicates the LAN relay link, not SmartThings-cloud or appliance health.
-Use source health/status attributes and timestamps to judge stale cloud data.
+## 상태 수신
 
-Control: HA → local MQTT → App → authenticated Edge listener → request attribute →
-SmartThings Rule → real device/cloud service. Edge acknowledgement only means the
-request was accepted by the driver. Confirm completion through returned device states.
-A timeout is uncertain, and is never retried automatically. Recent 256 request IDs are
-remembered on both sides. Retained MQTT controls are ignored; explicitly supply stable
-request_id values when an external caller needs duplicate suppression.
+**기기/클라우드 → Rules → Edge → 앱 → MQTT → HA** 순서입니다. 앱 런타임에는 SmartThings OAuth 토큰이나 반복 REST 조회를 사용하지 않습니다. 초기 CLI 구성에는 계정 인증이 필요하며 플랫폼의 제한·할당량은 적용됩니다.
 
-HA/App/LAN outage prevents commands. Internet/SmartThings outage also prevents control
-of cloud appliances and their status updates, even when the Edge/LAN connection works.
-The App contains no SmartThings cloud credentials at runtime; one-time CLI provisioning
-still uses the account's normal authentication and platform rules/quotas apply.
+원본 중첩 객체·배열은 센서 속성에서 확인합니다. 긴 값은 HA의 255자 상태 길이 제한에 맞춰 요약 상태로 표시하며 원본 null은 `unknown`입니다.
 
-## Privacy and build
+세탁기 전원과 동작 상태는 별개입니다. 켜져 있어도 세탁 시작 전에는 `machineState=stop`, `washerJobState=none`일 수 있습니다.
 
-Private source → Actions multiarch build → public GHCR image.
-Public metadata contains no personal device IDs, IP addresses, statuses or tokens.
-Only relay Python code and dependency lock pins enter the image, enforced by an
-allowlist .dockerignore. Runtime secrets and catalogs live only under /data.
-Container contents are extractable: public image does not hide compiled/source code.
+capability별 속성 이벤트 규칙은 `Always` 트리거와 timestamp를 사용합니다. 대형 메타데이터는 1분 Rules 갱신으로 보완하므로 모든 속성의 즉시 반영을 보장하지 않습니다.
 
-Validation: python -m unittest discover -s tests -v
+## 차량 제어
 
-Native MQTT controls can be stored in the private runtime catalog under entities.
-Optional HVAC settings are persisted locally. Changing temperature, duration, or defog
-preferences never actuates the vehicle; only an explicit HVAC on/mode command uses them.
+**HA → MQTT → 앱 → 인증된 Edge 수신기 → 요청 속성 → Rules → 실제 기기/클라우드** 순서입니다. 무인자 명령은 버튼으로 제공되며 카탈로그에 따라 공조·잠금 등의 네이티브 MQTT 엔티티를 구성할 수 있습니다.
+
+온도·작동 시간·김서림 설정은 로컬에 저장합니다. 명시적인 공조 켜기 또는 모드 명령을 보내야 저장된 값으로 제어합니다. 프로필에 있는 명령도 차량 서비스에서 거절할 수 있으며 내연기관 차량은 시동 대신 공조 명령이 필요한 경우가 있습니다.
+
+매개변수 명령은 JSON text 엔티티(최대 255자) 또는 MQTT `smartthings_lan_relay/command`를 사용합니다. payload는 `{"route":"카탈로그 경로","args":[...]}` 형식이며 `retain: false`로 보냅니다. 인자는 capability 스키마로 검증합니다.
+
+Edge 응답은 요청 접수이며 실제 동작 완료가 아닙니다. 반환 상태로 결과를 확인합니다. 시간 초과는 결과 불명으로 처리하고 자동 재시도하지 않습니다. 양쪽에서 최근 요청 ID 256개를 기억하며 retained MQTT 제어는 무시합니다.
+
+## 장애 시 동작
+
+| 상황 | 상태 수신과 제어 |
+| --- | --- |
+| HA 또는 앱 중지 | HA에서 수신·제어할 수 없습니다. 재시작 후 최신 캐시 상태를 재전송합니다. |
+| MQTT 중지 | HA 상태 전달·명령 경로가 중단됩니다. 재연결 시 discovery와 상태를 다시 게시합니다. |
+| 허브 중지 또는 LAN 단절 | heartbeat가 약 90초 없으면 엔티티가 사용할 수 없음으로 표시됩니다. 제어도 불가능합니다. |
+| 인터넷·SmartThings·차량 서비스 장애 | LAN이 살아 있어도 클라우드 기기의 새 상태와 제어는 실패하거나 지연될 수 있습니다. |
+
+장애 중 중간 상태가 합쳐질 수 있습니다. 최신 상태 동기화이며 모든 전환을 보관하는 이력 서버는 아닙니다. LAN 가용성과 기기·클라우드 정상 상태를 구분하고 원본 상태·시각으로 갱신 여부를 판단하세요.
+
+## 문제 확인
+
+- 엔티티 없음: Mosquitto/MQTT 통합, 카탈로그 등록과 초기 상태 규칙 실행 여부를 확인합니다.
+- 사용할 수 없음: 앱 로그, 허브 IP, 인증 키, 중계 기기 허용 목록과 LAN 연결을 확인합니다.
+- 오래된 상태: 원본 SmartThings 상태·시각과 이벤트 규칙을 확인합니다. 캐시만으로 최신 상태라고 판단하지 않습니다.
+- 제어 후 변화 없음: 차량 서비스 지연·거절 여부와 반환 상태를 확인합니다. 불확실한 명령을 자동 반복하지 않습니다.
+
+문의는 [공개 저장소 Issues](https://github.com/Qualified4/ha-relay-apps/issues)에 남기되 키·토큰·개인 기기 ID·원본 상태 덤프는 첨부하지 마세요.
+
+## 공개 범위
+
+Git 소스는 비공개이고 공개 저장소에는 설치 정보와 문서만 있습니다. 다만 공개 이미지 안의 실행 코드는 추출할 수 있습니다. 실제 식별자·주소·키·카탈로그는 로컬 설정과 `/data`에서 관리합니다.

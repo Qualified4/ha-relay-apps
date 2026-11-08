@@ -1,0 +1,15 @@
+configuration:
+  hub_ip:
+    name: 허브 IP 주소
+    description: 자체 Edge 드라이버가 설치된 허브의 LAN IPv4 주소입니다.
+  sources:
+    name: 허용할 중계 기기 ID
+    description: 이벤트를 허용할 중계 기기 ID 목록입니다. 원본 가전 ID가 아닙니다.
+  relay_key:
+    name: 중계 인증 키
+    description: 앱과 Edge에 동일한 키를 설정합니다. 최초 시작 시 빈 값이면 생성하며 자동 만료되지 않습니다.
+  event_type:
+    name: HA 이벤트 이름
+    description: HA에 전달할 이벤트 이름입니다. 기본값 유지를 권장합니다.
+network:
+  18088/tcp: 인증된 Edge 로컬 중계 (LAN 전용)
