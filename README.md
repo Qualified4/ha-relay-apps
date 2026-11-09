@@ -4,6 +4,15 @@
 
 SmartThings와 Home Assistant를 자체 Edge 드라이버·Rules·로컬 MQTT로 연결하는 앱의 설치 저장소입니다. 소스는 별도 비공개 저장소에서 관리하며, 여기에는 설치 정보와 사용 문서만 공개합니다.
 
+## 구성
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.ko-dark.svg">
+  <img alt="SmartThings LAN Relay 구성도: 클라우드 기기와 Rules, Edge 허브, LAN Relay 앱, MQTT, Home Assistant 사이의 상태·제어 흐름" src="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.ko-light.svg">
+</picture>
+
+청록색 화살표는 상태, 주황색 화살표는 제어 흐름입니다.
+
 ## 설치
 
 1. Home Assistant에서 **설정 → 앱 → 앱 스토어 → 저장소**를 엽니다.

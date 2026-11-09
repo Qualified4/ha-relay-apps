@@ -4,6 +4,17 @@
 
 Connect SmartThings devices to Home Assistant using a custom Edge driver, Rules, and local MQTT. This repository provides installation metadata and documentation; source is maintained privately.
 
+## Architecture
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.en-dark.svg">
+  <img alt="SmartThings LAN Relay architecture: status and control between cloud devices and Rules, the Edge hub, the LAN Relay App, MQTT and Home Assistant" src="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.en-light.svg">
+</picture>
+
+Teal arrows carry status, orange arrows carry control.
+
+## Install
+
 Add `https://github.com/Qualified4/ha-relay-apps` under **Settings → Apps → App Store → Repositories**. Supports `aarch64` and `amd64` with public prebuilt images; no GitHub token is required.
 
 **Installing the App alone is not enough:** the custom Edge driver, device-specific Rules, a private catalog, Mosquitto and the HA MQTT integration are required. Setup tools are in the private source repository. Not every SmartThings device is automatically supported.
