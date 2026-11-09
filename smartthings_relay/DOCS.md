@@ -2,6 +2,15 @@
 
 한국어 · [English](DOCS.en.md)
 
+## 구성
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.ko-dark.svg">
+  <img alt="SmartThings LAN Relay 구성도: 클라우드 기기와 Rules, Edge 허브, LAN Relay 앱, MQTT, Home Assistant 사이의 상태·제어 흐름" src="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.ko-light.svg">
+</picture>
+
+청록색 화살표는 상태, 주황색 화살표는 제어 흐름입니다.
+
 ## 준비 사항
 
 Home Assistant OS/Supervisor (`aarch64` / `amd64`), SmartThings Edge 지원 허브, 자체 Edge 드라이버, Mosquitto 앱과 HA MQTT 통합이 필요합니다.

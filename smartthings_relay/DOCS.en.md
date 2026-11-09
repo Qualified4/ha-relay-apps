@@ -7,6 +7,15 @@ which sends authenticated LAN updates to this App. HA discovers sensors and vehi
 controls through its existing local MQTT broker. Runtime does not use a SmartThings
 OAuth token or poll the SmartThings REST API.
 
+## Architecture
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.en-dark.svg">
+  <img alt="SmartThings LAN Relay architecture: status and control between cloud devices and Rules, the Edge hub, the LAN Relay App, MQTT and Home Assistant" src="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.en-light.svg">
+</picture>
+
+Teal arrows carry status, orange arrows carry control.
+
 ## Install
 
 Use the public App repository https://github.com/Qualified4/ha-relay-apps .

@@ -4,6 +4,15 @@
 
 Connect SmartThings device states and vehicle/water mat controls to Home Assistant using a custom Edge driver, SmartThings Rules and local MQTT. Runtime does not store SmartThings OAuth credentials or poll its REST API. This project does not use AEB.
 
+## Architecture
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.en-dark.svg">
+  <img alt="SmartThings LAN Relay architecture: status and control between cloud devices and Rules, the Edge hub, the LAN Relay App, MQTT and Home Assistant" src="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.en-light.svg">
+</picture>
+
+Teal arrows carry status, orange arrows carry control.
+
 ## Features
 
 - Washer, vehicle and Navien water mat state discovery, including structured attributes

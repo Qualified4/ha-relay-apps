@@ -6,6 +6,13 @@ SmartThings 기기의 상태를 Home Assistant로 전달하고, HA에서 차량�
 
 ## 구성
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.ko-dark.svg">
+  <img alt="SmartThings LAN Relay 구성도: 클라우드 기기와 Rules, Edge 허브, LAN Relay 앱, MQTT, Home Assistant 사이의 상태·제어 흐름" src="https://raw.githubusercontent.com/Qualified4/ha-relay-apps/main/smartthings_relay/images/architecture.ko-light.svg">
+</picture>
+
+청록색 화살표는 상태, 주황색 화살표는 제어 흐름입니다.
+
 ```text
 상태: 기기/클라우드 → SmartThings Rules → Edge 허브 → LAN Relay 앱 → MQTT → HA
 제어: HA → MQTT → LAN Relay 앱 → Edge 허브 → SmartThings Rules → 기기/클라우드
