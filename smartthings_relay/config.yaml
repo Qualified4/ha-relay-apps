@@ -1,5 +1,5 @@
 name: SmartThings LAN Relay
-version: "0.1.4"
+version: "0.1.5"
 slug: smartthings_relay
 description: SmartThings 기기 상태와 차량·온수매트 제어를 Home Assistant에 연결하는 로컬 중계 앱
 url: https://github.com/Qualified4/ha-relay-apps

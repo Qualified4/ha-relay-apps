@@ -63,6 +63,12 @@ power off when the last zone is switched off, stores zone/setpoint changes while
 off and restores the previous zone layout at power on; zone heat is therefore
 main==on AND zone==on, and zone heat sends zone on plus main on.
 
+A command may declare `expect` (attribute key -> value or an argument reference
+such as `"$a0"`). Once the Edge accepts it, HA shows that expected state at once
+(`optimistic: true` in the state JSON). Cloud status events sometimes arrive
+seconds late; the real event replaces the expectation, and without one the last
+real state returns after 60 s. Expectations live in memory only.
+
 Vehicle commands without arguments appear as HA buttons. Parameterized commands use
 the Vehicle command JSON text entity (up to 255 characters) or mqtt.publish on
 smartthings_lan_relay/command, with retain:false and {"route":"catalog route","args":[...]}.
